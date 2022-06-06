@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
         
         # config up the table        
         header = self.tbl.horizontalHeader()
-        input_header = ['Recipe', 'qty:Salt(tsp)', 'qty:Pepper(tsp)', 'qty:Paprika(tsp)', 'qty:Tumeric(tsp)']
+        input_header = ['Recipe', 'qty:Salt(tsp)', 'qty:Pepper(tsp)', 'qty:Paprika(tsp)']
         self.tbl.setHorizontalHeaderLabels(input_header)
         header.setSectionResizeMode(QHeaderView.Stretch)
         
@@ -87,8 +87,7 @@ class MainWindow(QMainWindow):
                     if col == 0: self.tbl.setItem(row, col, QTableWidgetItem(self.my_dict['Recipe'][row]))
                     if col == 1: self.tbl.setItem(row, col, QTableWidgetItem(self.my_dict['qty:Salt(tsp)'][row]))
                     if col == 2: self.tbl.setItem(row, col, QTableWidgetItem(self.my_dict['qty:Pepper(tsp)'][row]))
-                    if col == 3: self.tbl.setItem(row, col, QTableWidgetItem(self.my_dict['qty:Paprika(tsp)'][row]))   
-                    if col == 4: self.tbl.setItem(row, col, QTableWidgetItem(self.my_dict['qty:Tumeric(tsp)'][row]))                              
+                    if col == 3: self.tbl.setItem(row, col, QTableWidgetItem(self.my_dict['qty:Paprika(tsp)'][row]))                            
                 except IndexError:
                     print(f'INDEX ERROR')          
         
@@ -147,7 +146,7 @@ class MainWindow(QMainWindow):
     # save the table contents and table row/column to the ini file
     def pb_save_clicked(self):
         # create an empty dictionary
-        self.tbl_dict = {'Recipe':[], 'qty:Salt(tsp)':[], 'qty:Pepper(tsp)':[], 'qty:Paprika(tsp)':[],'qty:Tumeric(tsp)':[]}
+        self.tbl_dict = {'Recipe':[], 'qty:Salt(tsp)':[], 'qty:Pepper(tsp)':[], 'qty:Paprika(tsp)':[]}
         
         # loop over the cells and add to the table
         for column in range(self.tbl.columnCount()):
@@ -161,7 +160,7 @@ class MainWindow(QMainWindow):
                 if column == 1: self.tbl_dict['qty:Salt(tsp)'].append(text)
                 if column == 2: self.tbl_dict['qty:Pepper(tsp)'].append(text)
                 if column == 3: self.tbl_dict['qty:Paprika(tsp)'].append(text)
-                if column == 4: self.tbl_dict['qty:Tumeric(tsp)'].append(text)
+
         
         # write values to ini file      
         self.settings.setValue('table', str(self.tbl_dict))
