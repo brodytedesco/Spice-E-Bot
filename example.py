@@ -10,16 +10,22 @@ class Demo1:
         self.frame = tk.Frame(self.master)
         self.butnew("Single Spices", "ONE", SingleSpice)
         self.butnew("Recipes", "TWO", Recipes)
-        self.label = tk.Label(master, text=f"Select your Method!")
+        
+        btn_submit = tk.Button(self.frame, text="Search for new recipes",command=self.receive)
+        btn_submit.pack(side="top", fill="x", pady=20)
+
+        self.label = tk.Label(master, text=f"Welcome to the Spice-E-Bot select your option")
         self.label.pack()
         self.frame.pack()
 
     def butnew(self, text, number, _class):
-        tk.Button(self.frame, text = text, width = 25, command = lambda: self.new_window(number, _class)).pack()
-
+        tk.Button(self.frame, text = text,bg='#0e2f44', fg='#ffffff', width = 25, height=5, command = lambda: self.new_window(number, _class)).pack(side="top", fill="x", pady=15)
     def new_window(self, number, _class):
         self.newWindow = tk.Toplevel(self.master)
         _class(self.newWindow, number)
+
+    def receive(self):
+        print("ok")
 
 
 class SingleSpice:
@@ -27,7 +33,7 @@ class SingleSpice:
         self.master = master
         self.master.geometry("400x400+400+400")
         self.frame = tk.Frame(self.master)
-        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.quitButton = tk.Button(self.frame, text = 'Quit', bg='#f6546a', fg='#000000',width = 25, command = self.close_windows)
         self.butnew(spiceslist[0], 0, SelectedSpice)
         self.butnew(spiceslist[1], 1, SelectedSpice)
         self.butnew(spiceslist[2], 2, SelectedSpice)
@@ -40,7 +46,7 @@ class SingleSpice:
 
     
     def butnew(self, text, number, _class):
-        tk.Button(self.frame, text = text, width = 25, command = lambda: self.new_window(number, _class)).pack(side="top", fill="x", pady=10)
+        tk.Button(self.frame, text = text,bg='#696969', fg='#ffffff', width = 25, command = lambda: self.new_window(number, _class)).pack(side="top", fill="x", pady=10)
 
     def new_window(self, number, _class):
         self.newWindow = tk.Toplevel(self.master)
@@ -59,18 +65,18 @@ class SelectedSpice:
         self.master = master
         self.master.geometry("500x500+400+400")
         self.frame = tk.Frame(self.master)
-        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.quitButton = tk.Button(self.frame, text = 'Quit', bg='#f6546a', fg='#000000',width = 25, command = self.close_windows)
 
-        btn_decrease = tk.Button(self.frame, text="+",command=lambda: self.increase(lbl_value) ,width=5,height=3)
+        btn_decrease = tk.Button(self.frame, text="+",bg='#b4eeb4', fg='#000000',command=lambda: self.increase(lbl_value) ,width=5,height=3)
         btn_decrease.pack(side="top", fill="x", pady=10)
 
         lbl_value = tk.Label(self.frame, text="0",font=7)
         lbl_value.pack(side="top", fill="x", pady=10)
 
-        btn_increase = tk.Button(self.frame, text="-",command=lambda: self.decrease(lbl_value) ,width=5, height=3)
+        btn_increase = tk.Button(self.frame, text="-", bg='#ff7f50', fg='#000000', command=lambda: self.decrease(lbl_value) ,width=5, height=3)
         btn_increase.pack(side="top", fill="x", pady=10)
 
-        btn_submit = tk.Button(self.frame, text="Sumbit",command=lambda: self.extract(lbl_value)  ,width=5, height=3)
+        btn_submit = tk.Button(self.frame, text="Sumbit", bg='#0a75ad', fg='#ffffff', command=lambda: self.extract(lbl_value)  ,width=5, height=3)
         btn_submit.pack(side="top", fill="x", pady=10)
   
 
@@ -116,19 +122,19 @@ class Recipes:
         self.master = master
         self.master.geometry("400x400+400+400")
         self.frame = tk.Frame(self.master)
-        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.quitButton = tk.Button(self.frame, text = 'Quit', bg='#f6546a', fg='#000000',width = 25, command = self.close_windows)
         self.label = tk.Label(master, text=f"these are the recipes, we currently have {len(recipelist)} recipes")
         self.label.pack()
         for i in range(len(recipelist)):
             self.butnew(recipelist[i].name, i, SelectedRecipe)
-        self.quitButton.pack()
+        self.quitButton.pack(side="top", fill="x", pady=10)
         self.frame.pack()
 
     def close_windows(self):
         self.master.destroy()
     
     def butnew(self, text, number, _class):
-            tk.Button(self.frame, text = text, width = 25, command = lambda: self.new_window(number, _class)).pack(side="top", fill="x", pady=10)
+            tk.Button(self.frame, text = text,bg='#FFFF66', fg='#000000', width = 25, command = lambda: self.new_window(number, _class)).pack(side="top", fill="x", pady=10)
 
     def new_window(self, number, _class):
         self.newWindow = tk.Toplevel(self.master)
@@ -142,8 +148,7 @@ class SelectedRecipe:
         self.master.geometry("400x400+400+400")
         self.frame = tk.Frame(self.master)
         name = recipelist[number].name
-        spice1 = spiceslist[0]
-        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.quitButton = tk.Button(self.frame, text = 'Quit', bg='#f6546a', fg='#000000',width = 25, command = self.close_windows)
         self.label = tk.Label(master, text=f"Conifrm you would like to dispense recipe: {name}")
         self.label.pack()
         self.label2 = tk.Label(master, text= spiceslist[0]+ "(tsp):" + recipelist[number].spice1)
@@ -153,7 +158,7 @@ class SelectedRecipe:
         self.label4 = tk.Label(master, text= spiceslist[2]+ "(tsp):" + recipelist[number].spice3)
         self.label4.pack()
 
-        btn_submit = tk.Button(self.frame, text="Sumbit",command= self.extractrec  ,width=5, height=3)
+        btn_submit = tk.Button(self.frame, text="Sumbit", bg='#0a75ad', fg='#ffffff', command= self.extractrec  ,width=5, height=3)
         btn_submit.pack(side="top", fill="x", pady=10)
   
 
@@ -173,7 +178,7 @@ class SelectedRecipe:
         #    "whatever ur code is to extract spice 1" = *recipelist[index].spice1
 
 
-        
+
         self.master.destroy()
 
 
@@ -190,11 +195,11 @@ class Recipe:
         print("extracting")
 
 recipelist = []
-recipelist.append(Recipe(1,2,2,"Lasagna"))
 
 
 
-spiceslist = {0:"salt",1:"pepper",2:"paprika"}
+
+spiceslist = {0:"Salt",1:"Pepper",2:"Paprika"}
 
 
 def readfromini():
