@@ -1,5 +1,7 @@
 import tkinter as tk
 import re
+from PyQt5.QtCore import QSettings
+import json
 
 class Demo1:
     def __init__(self, master):
@@ -26,9 +28,9 @@ class SingleSpice:
         self.master.geometry("400x400+400+400")
         self.frame = tk.Frame(self.master)
         self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
-        self.butnew("pepper", 0, SelectedSpice)
-        self.butnew("salt", 1, SelectedSpice)
-        self.butnew("paprika", 2, SelectedSpice)
+        self.butnew(spiceslist[0], 0, SelectedSpice)
+        self.butnew(spiceslist[1], 1, SelectedSpice)
+        self.butnew(spiceslist[2], 2, SelectedSpice)
         self.label = tk.Label(master, text=f"Select your spice!")
         self.label.pack(side="top", fill="x", pady=10)
         self.quitButton.pack(side="bottom",pady=20)
@@ -72,7 +74,7 @@ class SelectedSpice:
         btn_submit.pack(side="top", fill="x", pady=10)
   
 
-        self.label = tk.Label(master, text=f"Specify your quantity of {spices[number]}")
+        self.label = tk.Label(master, text=f"Specify your quantity of {spiceslist[number]}")
         self.label.pack()
         self.quitButton.pack()
         self.frame.pack()
@@ -115,18 +117,65 @@ class Recipes:
         self.master.geometry("400x400+400+400")
         self.frame = tk.Frame(self.master)
         self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
-        self.label = tk.Label(master, text=f"this is window number {number}")
+        self.label = tk.Label(master, text=f"these are the recipes, we currently have {len(recipelist)} recipes")
         self.label.pack()
-        self.label2 = tk.Label(master, text="THIS IS HERE TO DIFFERENTIATE THIS WINDOW")
+        for i in range(len(recipelist)):
+            self.butnew(recipelist[i].name, i, SelectedRecipe)
+        self.quitButton.pack()
+        self.frame.pack()
+
+    def close_windows(self):
+        self.master.destroy()
+    
+    def butnew(self, text, number, _class):
+            tk.Button(self.frame, text = text, width = 25, command = lambda: self.new_window(number, _class)).pack(side="top", fill="x", pady=10)
+
+    def new_window(self, number, _class):
+        self.newWindow = tk.Toplevel(self.master)
+        _class(self.newWindow, number)
+       
+
+class SelectedRecipe:
+    def __init__(self, master, number):
+        self.index = number
+        self.master = master
+        self.master.geometry("400x400+400+400")
+        self.frame = tk.Frame(self.master)
+        name = recipelist[number].name
+        spice1 = spiceslist[0]
+        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
+        self.label = tk.Label(master, text=f"Conifrm you would like to dispense recipe: {name}")
+        self.label.pack()
+        self.label2 = tk.Label(master, text= spiceslist[0]+ "(tsp):" + recipelist[number].spice1)
         self.label2.pack()
+        self.label3 = tk.Label(master, text= spiceslist[1]+ "(tsp):" + recipelist[number].spice2)
+        self.label3.pack()
+        self.label4 = tk.Label(master, text= spiceslist[2]+ "(tsp):" + recipelist[number].spice3)
+        self.label4.pack()
+
+        btn_submit = tk.Button(self.frame, text="Sumbit",command= self.extractrec  ,width=5, height=3)
+        btn_submit.pack(side="top", fill="x", pady=10)
+  
+
         self.quitButton.pack()
         self.frame.pack()
 
     def close_windows(self):
         self.master.destroy()
 
-from PyQt5.QtCore import QSettings
-import json
+    def extractrec(self):
+        #hi seb this is all urs buddy
+        # recipe is at recipelist[self.index], then for spice 1 recipelist[self.index].spice1
+        # so you might put a function like this in here: extractrecipe(self.index)
+
+        # then right a function outside this that looks like...
+        # def extractrecipe(index)
+        #    "whatever ur code is to extract spice 1" = *recipelist[index].spice1
+
+
+        
+        self.master.destroy()
+
 
 class Recipe:
     def __init__(self, tsp1, tsp2, tsp3, name):
@@ -145,7 +194,7 @@ recipelist.append(Recipe(1,2,2,"Lasagna"))
 
 
 
-spices = {0:"pepper",1:"salt",2:"paprika"}
+spiceslist = {0:"salt",1:"pepper",2:"paprika"}
 
 
 def readfromini():
